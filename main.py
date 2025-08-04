@@ -3,7 +3,7 @@ import os
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import SessionPasswordNeeded
-from pyrogram_session import StringSession  # ✅ Correct import
+from pyrogram.session import StringSession  # ✅ Correct for Pyrogram v2
 
 BOT_API_ID = int(os.getenv("BOT_API_ID"))
 BOT_API_HASH = os.getenv("BOT_API_HASH")
@@ -11,7 +11,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 OWNER_ID = int(os.getenv("OWNER_ID"))
 
 bot = Client(
-    "bot",
+    "session_bot",
     api_id=BOT_API_ID,
     api_hash=BOT_API_HASH,
     bot_token=BOT_TOKEN
