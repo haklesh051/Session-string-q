@@ -1,7 +1,7 @@
 import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from pyrogram.sessions import StringSession
+from pyrogram.session import StringSession  # ✅ Corrected here
 from pyrogram.errors import SessionPasswordNeeded
 import os
 
