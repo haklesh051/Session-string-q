@@ -3,7 +3,7 @@ import os
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import SessionPasswordNeeded
-from pyrogram.session import StringSession  # ✅ Correct for Pyrogram v2
+from pyrogram.sessions import StringSession  # ✅ CORRECT IMPORT
 
 BOT_API_ID = int(os.getenv("BOT_API_ID"))
 BOT_API_HASH = os.getenv("BOT_API_HASH")
