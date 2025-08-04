@@ -1,15 +1,14 @@
 import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from pyrogram.enums import ParseMode
-from pyrogram.session import StringSession
+from pyrogram.sessions import StringSession
 from pyrogram.errors import SessionPasswordNeeded
 import os
 
-BOT_API_ID = int(os.getenv("BOT_API_ID"))
-BOT_API_HASH = os.getenv("BOT_API_HASH")
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-OWNER_ID = int(os.getenv("OWNER_ID"))
+BOT_API_ID = int(os.environ.get("BOT_API_ID"))
+BOT_API_HASH = os.environ.get("BOT_API_HASH")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+OWNER_ID = int(os.environ.get("OWNER_ID"))
 
 bot = Client("session_bot", api_id=BOT_API_ID, api_hash=BOT_API_HASH, bot_token=BOT_TOKEN)
 
@@ -37,17 +36,14 @@ async def generate_session(_, message: Message):
             try:
                 await app.sign_in(phone, sent_code.phone_code_hash, otp)
             except SessionPasswordNeeded:
-                await message.reply("🔐 2FA Password required, send it:")
+                await message.reply("🔐 Send your 2FA password:")
                 pw_msg = await bot.listen(message.chat.id)
                 password = pw_msg.text.strip()
                 await app.check_password(password)
 
-            session_string = app.export_session_string()
-            await message.reply(
-                f"✅ **Your SESSION STRING:**\n\n`{session_string}`",
-                parse_mode=ParseMode.MARKDOWN
-            )
+            session_str = app.export_session_string()
+            await message.reply(f"✅ **SESSION STRING:**\n\n`{session_str}`")
         except Exception as e:
-            await message.reply(f"❌ Error: `{str(e)}`", parse_mode=ParseMode.MARKDOWN)
+            await message.reply(f"❌ Error:\n`{str(e)}`")
 
 bot.run()
